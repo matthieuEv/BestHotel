@@ -2,14 +2,14 @@ PROJECT_PATH := "bestHotel"
 MANAGE := python $(PROJECT_PATH)/manage.py
 
 serve:
-	$(MANAGE) runserver
+	$(MANAGE) runserver 
 
 migrate:
 	$(MANAGE) makemigrations bestHotelApp
 	$(MANAGE) migrate
 
 setup_admin:
-	$(MANAGE) createsuperuser --username admin --email a@e.com
+	$(MANAGE) createsuperuser
 
 run:
 	$(MANAGE) flush --noinput
@@ -19,3 +19,6 @@ run:
 
 test:
 	$(MANAGE) test bestHotelApp
+
+flush:
+	$(MANAGE) flush --noinput
