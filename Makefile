@@ -1,4 +1,4 @@
-PROJECT_PATH := "bestHotel"
+PROJECT_PATH := "bestHotel/bestHotel"
 MANAGE := python $(PROJECT_PATH)/manage.py
 
 serve:
