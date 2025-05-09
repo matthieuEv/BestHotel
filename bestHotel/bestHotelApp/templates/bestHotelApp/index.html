@@ -1,16 +1,23 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
   <title>Best Hotel</title>
+  <link rel="icon" href="{% static 'bestHotelApp/favicon.ico' %}">
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
   <style>
     .hotel-card {
       display: block;
+      transition: filter 0.5s;
     }
     .hotel-card.hide {
       display: none;
+    }
+    .blur-img {
+      filter: blur(2px) grayscale(1) brightness(0.9);
+      transition: filter 0.5s;
     }
   </style>
 </head>
@@ -32,6 +39,9 @@
       {% for hotel in hotels %}
         <div class="col-md-4 mb-4 hotel-card" data-city="{{ hotel.city.code }}">
           <div class="card">
+            {% if hotel.image_filename %}
+              <img src="{% static hotel.image_filename %}" class="card-img-top rounded-top-4 hotel-img" alt="Hotel image">
+            {% endif %}
             <div class="card-body">
               <h5 class="card-title">{{ hotel.name }}</h5>
               <h6 class="card-subtitle mb-2 text-muted">{{ hotel.city.name }}</h6>
@@ -42,5 +52,26 @@
       {% endfor %}
     </div>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.hotel-card');
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          cards.forEach(other => {
+            if (other !== card) {
+              const img = other.querySelector('.hotel-img');
+              if (img) img.classList.add('blur-img');
+            }
+          });
+        });
+        card.addEventListener('mouseleave', () => {
+          cards.forEach(other => {
+            const img = other.querySelector('.hotel-img');
+            if (img) img.classList.remove('blur-img');
+          });
+        });
+      });
+    });
+  </script>
 </body>
 </html>
