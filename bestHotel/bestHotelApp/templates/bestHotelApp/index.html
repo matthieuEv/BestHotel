@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Best Hotel</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  <style>
+    .hotel-card {
+      display: block;
+    }
+    .hotel-card.hide {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-4">
+    <h1 class="mb-4 text-center">Best Hotel</h1>
+    <div class="mb-4">
+      <label for="city-select" class="form-label me-2 d-inline-block">Choose a city:</label>
+      <select id="city-select" class="form-select w-auto d-inline-block">
+        <option value="all" selected>All cities</option>
+        {% for city in cities %}
+          <option value="{{ city.code }}">{{ city.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="row" id="hotels-list">
+      {% for hotel in hotels %}
+        <div class="col-md-4 mb-4 hotel-card" data-city="{{ hotel.city.code }}">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ hotel.name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ hotel.city.name }}</h6>
+              <p class="card-text">Code: {{ hotel.code }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <script>
+    const citySelect = document.getElementById('city-select');
+    const hotelCards = Array.from(document.querySelectorAll('.hotel-card'));
+    function filterHotels() {
+      const selected = citySelect.value;
+      hotelCards.forEach(card => {
+        if (selected === 'all' || card.dataset.city === selected) {
+          card.classList.remove('hide');
+        } else {
+          card.classList.add('hide');
+        }
+      });
+    }
+    citySelect.addEventListener('change', filterHotels);
+    window.addEventListener('DOMContentLoaded', filterHotels);
+  </script>
+</body>
+</html>
