@@ -1,12 +1,11 @@
 from django.apps import AppConfig
 
-
 class BesthotelappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'bestHotelApp'
 
     def ready(self):
-
+        
         def fetch_and_import_csv():
             import csv
             import requests
@@ -17,13 +16,13 @@ class BesthotelappConfig(AppConfig):
 
             # Import city.csv
             try:
-                resp = requests.get(CITY_CSV_URL)
+                resp = requests.get(CITY_CSV_URL)  # Download city CSV
                 resp.raise_for_status()
                 lines = resp.text.splitlines()
                 reader = csv.reader(lines, delimiter=';')
                 for i, row in enumerate(reader):
                     if len(row) != 2:
-                        continue
+                        continue  # Skip malformed rows
                     code = row[0]
                     name = row[1]
                     City.objects.update_or_create(
@@ -35,13 +34,13 @@ class BesthotelappConfig(AppConfig):
 
             # Import hotel.csv
             try:
-                resp = requests.get(HOTEL_CSV_URL)
+                resp = requests.get(HOTEL_CSV_URL)  # Download hotel CSV
                 resp.raise_for_status()
                 lines = resp.text.splitlines()
                 reader = csv.reader(lines, delimiter=';')
                 for i, row in enumerate(reader):
                     if len(row) != 3:
-                        continue
+                        continue  # Skip malformed rows
                     city_code = row[0]
                     code = row[1]
                     name = row[2]
@@ -53,8 +52,8 @@ class BesthotelappConfig(AppConfig):
                                 "name": name,
                                 "city": city
                             }
-                        )
+                        )  # Create or update hotel
             except Exception as e:
                 print(f"Error importing hotel.csv: {e}")
 
-        fetch_and_import_csv()
+        fetch_and_import_csv()  # Run import at app startup
