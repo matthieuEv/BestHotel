@@ -24,14 +24,14 @@ class BesthotelappConfig(AppConfig):
                 for i, row in enumerate(reader):
                     if len(row) != 2:
                         continue
-                    code = row[0].strip().replace('"', '')
-                    name = row[1].strip().replace('"', '')
+                    code = row[0]
+                    name = row[1]
                     City.objects.update_or_create(
                         code=code,
                         defaults={"name": name}
                     )
             except Exception as e:
-                print(f"Erreur import city.csv: {e}")
+                print(f"Error importing city.csv: {e}")
 
             # Import hotel.csv
             try:
@@ -42,9 +42,9 @@ class BesthotelappConfig(AppConfig):
                 for i, row in enumerate(reader):
                     if len(row) != 3:
                         continue
-                    city_code = row[0].strip().replace('"', '')
-                    code = row[1].strip().replace('"', '')
-                    name = row[2].strip().replace('"', '')
+                    city_code = row[0]
+                    code = row[1]
+                    name = row[2]
                     city = City.objects.filter(code=city_code).first()
                     if city:
                         Hotel.objects.update_or_create(
@@ -55,6 +55,6 @@ class BesthotelappConfig(AppConfig):
                             }
                         )
             except Exception as e:
-                print(f"Erreur import hotel.csv: {e}")
+                print(f"Error importing hotel.csv: {e}")
 
         fetch_and_import_csv()

@@ -11,7 +11,7 @@ def index(request):
         hotels = Hotel.objects.all()
     else:
         hotels = Hotel.objects.filter(city__code=selected_city)
-    # Attribution d'une image statique à chaque hôtel (hotel1.jpg à hotel10.jpg)
+    # Assign a static image to each hotel (hotel1.jpg to hotel10.jpg)
     hotels_with_images = []
     for idx, hotel in enumerate(hotels):
         image_number = (idx % 10) + 1
