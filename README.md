@@ -1,3 +1,6 @@
+![Static Badge](https://img.shields.io/badge/python_version-3.12-blue?style=for-the-badge)
+![Static Badge](https://img.shields.io/badge/Django_version-4.2-orange?style=for-the-badge)
+
 # Best Hotel
 
 <img src="./bestHotel/static/bestHotelApp/images/example.png">
