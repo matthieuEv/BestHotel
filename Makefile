@@ -16,3 +16,6 @@ run:
 	$(MAKE) migrate
 	$(MAKE) setup_admin
 	$(MAKE) serve
+
+test:
+	$(MANAGE) test bestHotelApp

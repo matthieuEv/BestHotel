@@ -1,11 +1,15 @@
 from django.apps import AppConfig
+import sys
 
 class BesthotelappConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'bestHotelApp'
 
     def ready(self):
-        
+        # Do not execute CSV import during tests
+        if 'test' in sys.argv:
+            return
+
         def fetch_and_import_csv():
             import csv
             import requests
