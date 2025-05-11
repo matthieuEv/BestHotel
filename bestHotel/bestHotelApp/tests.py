@@ -1,6 +1,9 @@
 from django.test import TestCase, Client
 from .models import City, Hotel
 from django.urls import reverse
+from django.core.management import call_command
+from io import StringIO
+from unittest.mock import patch
 
 class CityHotelModelTests(TestCase):
     def setUp(self):
@@ -35,3 +38,27 @@ class IndexViewTests(TestCase):
         response = self.client.get(reverse("bestHotelApp:index"), {"city": "AMS"})
         self.assertContains(response, "Hotel Amsterdam")
         self.assertNotContains(response, "Hotel Antwerp")
+
+class ImportCSVCommandTests(TestCase):
+    # I've used chatGPT to help me better understand how Mock works
+    # and how to use it in the context of Django tests.
+    # I also used StackOverflow and the Python documentation
+    
+    def setUp(self):
+        self.city_csv = 'AMS;Amsterdam\nANT;Antwerp\n'
+        self.hotel_csv = 'AMS;AMS01;Hotel Amsterdam\nANT;ANT01;Hotel Antwerp\n'
+
+    @patch('requests.get')
+    def test_import_csv_command(self, mock_get):
+        class MockResponse:
+            def __init__(self, text):
+                self.text = text
+            def raise_for_status(self):
+                pass
+        # Simulate two calls: first for city.csv, then for hotel.csv
+        mock_get.side_effect = [MockResponse(self.city_csv), MockResponse(self.hotel_csv)]
+        out = StringIO()
+        call_command('import_csv', stdout=out)
+        self.assertTrue(City.objects.filter(code='AMS', name='Amsterdam').exists())
+        self.assertTrue(Hotel.objects.filter(code='AMS01', name='Hotel Amsterdam').exists())
+        self.assertIn('Import completed.', out.getvalue())
