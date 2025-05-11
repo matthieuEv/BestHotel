@@ -14,6 +14,7 @@ setup_admin:
 run:
 	$(MANAGE) flush --noinput
 	$(MAKE) migrate
+	$(MANAGE) import_csv
 	$(MAKE) setup_admin
 	$(MAKE) serve
 
