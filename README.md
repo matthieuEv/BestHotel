@@ -34,3 +34,18 @@ pip install -r requirements.txt
 ````
 make run
 ````
+
+## Environment Variables for CSV Import
+
+To import the remote CSV files (using HTTP authentication), set the following environment variables :
+
+- `BEST_HOTEL_USERNAME` : HTTP username
+- `BEST_HOTEL_PASSWORD` : HTTP password
+
+Example (macOS/Linux):
+```zsh
+export BEST_HOTEL_USERNAME="your-username"
+export BEST_HOTEL_PASSWORD="your-password"
+```
+
+If these variables are not set, you will be prompted for them when running the import command.
