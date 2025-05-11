@@ -49,3 +49,13 @@ export BEST_HOTEL_PASSWORD="your-password"
 ```
 
 If these variables are not set, you will be prompted for them when running the import command.
+
+## Automated Daily Import (Cron job)
+
+This project uses [django-crontab](https://github.com/kraiz/django-crontab) to schedule the daily import of hotel and city data from remote CSV files.
+
+- The import runs every day at 2:00 AM automatically.
+- The cron job is registered automatically when you run `make run`.
+
+> [!NOTE]
+> Make sure your environment variables `BEST_HOTEL_USERNAME` and `BEST_HOTEL_PASSWORD` are set in the environment where the cron runs.

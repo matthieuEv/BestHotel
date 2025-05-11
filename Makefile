@@ -15,6 +15,7 @@ run:
 	$(MANAGE) flush --noinput
 	$(MAKE) migrate
 	$(MANAGE) import_csv
+	$(MANAGE) crontab add
 	$(MAKE) setup_admin
 	$(MAKE) serve
 
@@ -23,3 +24,6 @@ test:
 
 flush:
 	$(MANAGE) flush --noinput
+
+show_crontab:
+	$(MANAGE) crontab show

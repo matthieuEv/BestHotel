@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bestHotelApp',
-    'bootstrap5'
+    'bootstrap5',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,8 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Cron job: import CSV every day at 2am
+CRONJOBS = [
+    ('0 2 * * *', 'django.core.management.call_command', ['import_csv'])
+]
